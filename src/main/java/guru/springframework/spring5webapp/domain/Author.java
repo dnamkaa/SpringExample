@@ -1,18 +1,46 @@
 package guru.springframework.spring5webapp.domain;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
+
+/**
+ * Created by jt on 5/16/17.
+ */
 @Entity
 public class Author {
-    public Author(String firstName, String lastName, Set<Author> authors) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.authors = authors;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String firstName;
+    private String lastName;
+
+    @ManyToMany(mappedBy = "authors")
+    private Set<Book> books  = new HashSet<>();
+
+    public Author() {
     }
 
-    private String firstName;
-    private  String  lastName;
-    private Set<Author> authors;
+    public Author(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Author(String firstName, String lastName, Set<Book> books) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.books = books;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -29,16 +57,11 @@ public class Author {
         this.lastName = lastName;
     }
 
-    public Set<Author> getAuthors() {
-        return authors;
+    public Set<Book> getBooks() {
+        return books;
     }
 
-    public void setAuthors(Set<Author> authors) {
-        this.authors = authors;
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
-
-
-
 }
-
-
